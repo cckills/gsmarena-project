@@ -12,63 +12,6 @@
     #results .result-item:hover { background:#eef5ff; }
     .phone-thumb { width:64px; height:64px; object-fit:contain; }
     .specs-container { max-height:60vh; overflow:auto; }
-
-
-/* Grid styles */
-#results.results-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-  align-items: stretch;
-  padding: 12px;
-}
-#results.results-grid .result-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border:1px solid #e9eefb;
-  padding:12px;
-  background:white;
-  min-height:140px;
-  border-radius:8px;
-  transition: transform .12s ease, box-shadow .12s ease;
-}
-#results.results-grid .result-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(13,110,253,0.08);
-}
-
-/* List styles (default) */
-#results.results-list .result-item {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:10px 6px;
-  border-bottom:1px solid #e9eefb;
-  background:white;
-}
-
-/* Thumbnail sizing */
-.result-item .phone-thumb {
-  width:64px;
-  height:64px;
-  object-fit:contain;
-  flex: 0 0 64px;
-}
-
-/* For grid thumbnail */
-.results-grid .result-item .phone-thumb {
-  width:100%;
-  height:140px;
-  object-fit:contain;
-  margin-bottom:8px;
-  flex: none;
-}
-
-/* Title and subtitle */
-.result-item .title { font-weight:700; }
-.result-item .subtitle { color:#6c757d; font-size:0.9rem; }
-
   </style>
 </head>
 <body>
@@ -100,7 +43,6 @@
             <button id="searchBtn" class="btn btn-primary">بحث</button>
           </div>
         </div>
-
         <div class="form-text mt-2" id="hint">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
       </div>
     </div>
@@ -222,93 +164,6 @@
       alert('فشل جلب بيانات الهاتف: ' + err.message);
     }
   }
-// عرض افتراضي
-let currentView = 'list'; // 'list' أو 'grid'
-
-// عناصر DOM
-const resultsEl = document.getElementById('results');
-const resultsCountEl = document.getElementById('resultsCount');
-const listViewBtn = document.getElementById('listViewBtn');
-const gridViewBtn = document.getElementById('gridViewBtn');
-
-// أزرار تبديل العرض
-listViewBtn.addEventListener('click', () => setView('list'));
-gridViewBtn.addEventListener('click', () => setView('grid'));
-
-function setView(view) {
-  currentView = view;
-  if (view === 'grid') {
-    resultsEl.classList.remove('results-list');
-    resultsEl.classList.add('results-grid');
-    gridViewBtn.classList.add('active');
-    listViewBtn.classList.remove('active');
-  } else {
-    resultsEl.classList.remove('results-grid');
-    resultsEl.classList.add('results-list');
-    listViewBtn.classList.add('active');
-    gridViewBtn.classList.remove('active');
-  }
-}
-
-// نستخدم هذه الدالة لعرض النتائج - استبدل الدالة القديمة بها
-function renderResults(items) {
-  if (!items || items.length === 0) {
-    resultsEl.innerHTML = '<div class="text-center text-muted py-3">' + langTexts[lang.current].noResults + '</div>';
-    resultsCountEl.textContent = '';
-    return;
-  }
-
-  resultsCountEl.textContent = items.length + ' نتيجة';
-
-  // إعداد صنف الحاوية بحسب العرض الحالي
-  if (currentView === 'grid') {
-    resultsEl.classList.remove('results-list');
-    resultsEl.classList.add('results-grid');
-  } else {
-    resultsEl.classList.remove('results-grid');
-    resultsEl.classList.add('results-list');
-  }
-
-  resultsEl.innerHTML = '';
-  items.forEach(it => {
-    const div = document.createElement('div');
-    div.className = 'result-item';
-
-    if (currentView === 'grid') {
-      // بطاقة شبكة
-      div.innerHTML = `
-        <img src="${it.thumb||''}" class="phone-thumb mx-auto" alt="">
-        <div class="title mt-2 text-center">${it.title}</div>
-        <div class="subtitle text-center">${it.subtitle||''}</div>
-        <div class="d-grid mt-3">
-          <button class="btn btn-sm btn-primary">عرض</button>
-        </div>
-      `;
-    } else {
-      // سطر قائمة
-      div.innerHTML = `
-        <img src="${it.thumb||''}" class="phone-thumb me-3" alt="">
-        <div class="flex-grow-1">
-          <div class="title">${it.title}</div>
-          <div class="subtitle">${it.subtitle||''}</div>
-        </div>
-        <div>
-          <button class="btn btn-outline-primary btn-sm">عرض</button>
-        </div>
-      `;
-      div.style.display = 'flex';
-      div.style.alignItems = 'center';
-    }
-
-    // افتح التفاصيل عند النقر
-    div.addEventListener('click', () => openPhone(it.path, it.title));
-    resultsEl.appendChild(div);
-  });
-}
-
-// تأكد من ضبط العرض الابتدائي عند تحميل الصفحة
-setView(currentView);
-
 </script>
 </body>
 </html>
