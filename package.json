@@ -1,0 +1,16 @@
+{
+  "name": "gsmarena-proxy",
+  "version": "1.0.0",
+  "description": "Simple Vercel project to search GSMArena and show phone specs (serverless functions)",
+  "main": "api/search.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
