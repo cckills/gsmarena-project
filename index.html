@@ -442,7 +442,7 @@ if (!items || items.length === 0) {
     confirmButtonText: 'حسنًا',
     backdrop: `rgba(0,0,0,0.6)`
   });
-  //resultsEl.innerHTML = ''; // مسح أي نتائج سابقة
+  resultsEl.innerHTML = ''; // مسح أي نتائج سابقة
   return;
 }
     resultsEl.innerHTML = "";
@@ -621,12 +621,20 @@ if (!items || items.length === 0) {
      });
 
      document.getElementById("modalTitle").textContent = title;
-     modalEl.show();
-    } catch (err) {
-     await Swal.fire("خطأ", "فشل جلب بيانات الهاتف: " + (err.message || err), "error");
-    } finally {
-     hideLoader();
-    }
+} catch (err) {
+  hideLoader(); // ← أولاً أخفِ التحميل فورًا
+  await Swal.fire({
+    icon: "error",
+    title: "خطأ",
+    text: "فشل جلب بيانات الهاتف: " + (err.message || err),
+    confirmButtonText: "إغلاق",
+    backdrop: `rgba(0,0,0,0.6)`
+  });
+  return; // ← للتأكد من عدم تنفيذ أي شيء بعده
+} finally {
+  // لا حاجة لاستدعاء hideLoader هنا لأنه تم استدعاؤه بالفعل
+}
+ 
    }
 
    // منع أي كود يَمنع إدخال العربية — لا نفعل أي قيود هنا.
