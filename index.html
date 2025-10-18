@@ -523,16 +523,7 @@
     document.body.classList.remove("loading");
   }
 
-  // عند تحميل الصفحة لأول مرة
-window.addEventListener("load", () => {
-  loader.classList.remove("hidden"); // ← أزل الإخفاء أولاً
-  showLoader("جارٍ التحميل...");
-  setTimeout(() => {
-    hideLoader();
-  }, 3000); // يمكنك تغيير المدة كما تشاء
-});
-
-
+  
    // Fade wrapper (لانتقال ناعم عند تبديل الثيم)
    const pageWrapper = document.getElementById("pageWrapper");
 
@@ -596,14 +587,16 @@ const API_BASE =
      await Swal.fire("ملاحظة", "الرجاء إدخال نص للبحث.", "info");
      return;
     }
-    showLoader("جاري البحث عن الهاتف...");
-    try {
+// عرض اللودر عند بدء البحث
+  showLoader("جارٍ البحث عن الهاتف...");
+      try {
      // <-- هنا طلبك الحقيقي: استبدل المسار التالي بAPI حقيقي لديك
     // const resp = await fetch("https://example.com/api/search?name=" + encodeURIComponent(q));
      const resp = await fetch(`${API_BASE}/api/search?name=${encodeURIComponent(q)}`)
-
      if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
+
      const data = await resp.json();
+
      renderResults(data);
      playSound(soundSuccess); // ← صوت النجاح
 
@@ -615,6 +608,7 @@ playSound(soundError); // ← صوت الخطأ
      hideLoader();
     }
    }
+
 
    // Render results
    async function renderResults(items) {
@@ -687,41 +681,39 @@ const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.pat
    }
 
    // Open phone - fetch details and parse
-   async function openPhone(path, title) {
-    showLoader("جاري جلب مواصفات الهاتف...");
-    playSound(soundSuccess); // ← صوت النجاح عند عرض التفاصيل
+async function openPhone(path, title) {
+  showLoader("جاري جلب مواصفات الهاتف...");
+  playSound(soundSuccess); // 🎵 صوت عند بدء الجلب
 
-    try {
-      await new Promise(r => setTimeout(r, 4000)); // ⏳ انتظر 4 ثوانٍ قبل جلب التفاصيل
+  try {
+    // ⏳ تأخير بسيط اختياري لمحاكاة التحميل
+    await new Promise(r => setTimeout(r, 4000));
 
-     // استبدل المسار /api/phone بواجهتك الحقيقية
-     const resp = await fetch("/api/phone?path=" + encodeURIComponent(path));
-     if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
-     const html = await resp.text();
-     const parser = new DOMParser();
-     const doc = parser.parseFromString(html, "text/html");
+    const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(path)}`);
+    if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
+    const html = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, "text/html");
 
-     // تنظيف التبويبات
-     document.querySelectorAll("#modalTabsContent .tab-pane").forEach((tab) => (tab.innerHTML = ""));
+    // 🔄 تنظيف التبويبات
+    document.querySelectorAll("#modalTabsContent .tab-pane").forEach((tab) => (tab.innerHTML = ""));
 
-     // صورة (أول صورة في الصفحة إن وُجدت)
-     const imgSrc = doc.querySelector("img")?.src || "";
-
-     // نظرة عامة
-     const overviewEl = document.getElementById("tab-overview");
-     overviewEl.innerHTML = `
-          <div class="card mb-3 shadow-sm border-0 rounded-4">
-            <div class="row g-0 align-items-center">
-              <div class="col-md-4 text-center p-3">
-                <img src="${imgSrc}" class="img-fluid rounded-3" style="max-height:250px; object-fit:contain;" alt="${title}">
-              </div>
-              <div class="col-md-8 p-3">
-                <h4 class="fw-bold mb-2">${title}</h4>
-                <p class="text-muted mb-2">المواصفات التقنية</p>
-                <div class="row g-2" id="spec-cards"></div>
-              </div>
-            </div>
+    // 🖼️ الصورة والعنوان
+    const imgSrc = doc.querySelector("img")?.src || "";
+    const overviewEl = document.getElementById("tab-overview");
+    overviewEl.innerHTML = `
+      <div class="card mb-3 shadow-sm border-0 rounded-4">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-4 text-center p-3">
+            <img src="${imgSrc}" class="img-fluid rounded-3" style="max-height:250px; object-fit:contain;" alt="${title}">
           </div>
+          <div class="col-md-8 p-3">
+            <h4 class="fw-bold mb-2">${title}</h4>
+            <p class="text-muted mb-2">المواصفات التقنية</p>
+            <div class="row g-2" id="spec-cards"></div>
+          </div>
+        </div>
+      </div>
         `;
 
      // استخراج جداول
@@ -814,26 +806,44 @@ const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.pat
       }
      });
 
-document.getElementById("modalTitle").textContent = title;
 
-    // ✅ أضف هذين السطرين هنا:
-    hideLoader();     // لإخفاء شاشة التحميل
-    modalEl.show();   // لإظهار نافذة المودال} catch (err) {
-  hideLoader(); // ← أولاً أخفِ التحميل فورًا
-  await Swal.fire({
-    icon: "error",
-    title: "خطأ",
-    text: "فشل جلب بيانات الهاتف: " + (err.message || err),
-    confirmButtonText: "إغلاق",
-    backdrop: `rgba(0,0,0,0.6)`
-  });
-  return; // ← للتأكد من عدم تنفيذ أي شيء بعده
-} finally {
-  // لا حاجة لاستدعاء hideLoader هنا لأنه تم استدعاؤه بالفعل
+    document.getElementById("modalTitle").textContent = title;
+
+    // ✅ إخفاء شاشة التحميل
+    hideLoader();
+
+    // ✅ تنبيه نجاح قبل إظهار المودال
+    await Swal.fire({
+      icon: "success",
+      title: "تم تحميل المواصفات بنجاح ✅",
+      text: "سيتم عرض التفاصيل الآن...",
+      timer: 2000, // 2 ثانية
+      timerProgressBar: true,
+      showConfirmButton: false,
+      background: "#ffffff",
+      color: "#333",
+      backdrop: "rgba(0,0,0,0.4)",
+      didOpen: () => {
+        Swal.getPopup().style.borderRadius = "1rem";
+        Swal.getPopup().style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
+      }
+    });
+
+    // ✅ عرض المودال بعد التنبيه
+    modalEl.show();
+
+  } catch (err) {
+    hideLoader();
+    await Swal.fire({
+      icon: "error",
+      title: "خطأ",
+      text: "فشل جلب بيانات الهاتف: " + (err.message || err),
+      confirmButtonText: "إغلاق",
+      backdrop: `rgba(0,0,0,0.6)`
+    });
+    return;
+  }
 }
- 
-   }
-
    // منع أي كود يَمنع إدخال العربية — لا نفعل أي قيود هنا.
    queryEl.addEventListener("input", async (e) => {
     const arabicPattern = /[\u0600-\u06FF]/g;
@@ -887,14 +897,26 @@ function hideLoader() {
   document.body.classList.remove("loading");
 }
 
-// 📱 عند تحميل الصفحة لأول مرة
-window.addEventListener("load", () => {
-  loader.classList.remove("hidden");
+// ✅ عند تحميل الصفحة لأول مرة
+window.addEventListener("load", async () => {
   showLoader("جارٍ التحميل...");
-  setTimeout(() => {
+
+  // نحاول اختبار سرعة التحميل عبر طلب صغير
+  try {
+    const testUrl = `${API_BASE}/api/ping`; // يمكنك تعديل هذا إلى أي endpoint بسيط
+    const resp = await fetch(testUrl, { method: "GET" });
+    if (!resp.ok) throw new Error("فشل في الاتصال بالـ API");
+
+    // تم الاتصال بنجاح → إخفاء اللودر مباشرة
     hideLoader();
-  }, 400);
+
+  } catch (err) {
+    // لو فشل الاتصال، انتظر قليلاً ثم أخفِ اللودر لتفادي التجمّد
+    console.warn("Network slow or unreachable:", err);
+    setTimeout(() => hideLoader(), 4000);
+  }
 });
+
 
 const soundLoad = document.getElementById("soundLoad");
 const soundSuccess = document.getElementById("soundSuccess");
