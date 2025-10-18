@@ -472,6 +472,8 @@ if (!items || items.length === 0) {
 
      // الآن fetch صغير لجلب صفحة الهاتف للحصول على Chipset
      try {
+     await new Promise(r => setTimeout(r, 3000)); // ⏳ انتظر 3 ثوانٍ قبل كل طلب
+
       const resp = await fetch("/api/phone?path=" + encodeURIComponent(it.path));
       if (!resp.ok) throw new Error("فشل الاتصال");
       const html = await resp.text();
@@ -500,6 +502,8 @@ if (!items || items.length === 0) {
    async function openPhone(path, title) {
     showLoader("جاري جلب مواصفات الهاتف...");
     try {
+      await new Promise(r => setTimeout(r, 4000)); // ⏳ انتظر 4 ثوانٍ قبل جلب التفاصيل
+
      // استبدل المسار /api/phone بواجهتك الحقيقية
      const resp = await fetch("/api/phone?path=" + encodeURIComponent(path));
      if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
