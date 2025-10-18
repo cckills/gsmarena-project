@@ -508,6 +508,7 @@
   function showLoader(text = "جارٍ التحميل...") {
     document.body.classList.add("loading");
     loader.querySelector(".loading-text").textContent = text;
+  playSound(soundLoad); // ← صوت التحميل
 
     if (chargeSound) {
       chargeSound.currentTime = 0;
@@ -576,6 +577,11 @@ window.addEventListener("load", () => {
     localStorage.setItem("viewMode", isGrid ? "grid" : "list");
     applyViewMode();
    });
+// 🧠 تحديد عنوان الـ API حسب البيئة (محلي / أونلاين)
+const API_BASE =
+  location.hostname === "localhost" || location.hostname === "127.0.0.1"
+    ? "http://localhost:3000" // عنوان السيرفر المحلي
+    : "https://gsmarena-project.vercel.app";  // <-- غيّره إلى عنوان سيرفرك الفعلي أو API المستضيف
 
    // Search handlers
    const queryEl = document.getElementById("query");
@@ -593,11 +599,16 @@ window.addEventListener("load", () => {
     showLoader("جاري البحث عن الهاتف...");
     try {
      // <-- هنا طلبك الحقيقي: استبدل المسار التالي بAPI حقيقي لديك
-     const resp = await fetch("/api/search?name=" + encodeURIComponent(q));
+    // const resp = await fetch("https://example.com/api/search?name=" + encodeURIComponent(q));
+     const resp = await fetch(`${API_BASE}/api/search?name=${encodeURIComponent(q)}`)
+
      if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
      const data = await resp.json();
      renderResults(data);
+     playSound(soundSuccess); // ← صوت النجاح
+
     } catch (err) {
+playSound(soundError); // ← صوت الخطأ
 
      resultsEl.innerHTML = '<div class="text-danger text-center py-3">فشل البحث: ' + (err.message || err) + "</div>";
     } finally {
@@ -649,7 +660,9 @@ if (!items || items.length === 0) {
      try {
      await new Promise(r => setTimeout(r, 3000)); // ⏳ انتظر 3 ثوانٍ قبل كل طلب
 
-      const resp = await fetch("/api/phone?path=" + encodeURIComponent(it.path));
+      //const resp = await fetch("https://example.com/api/phone?path=" + encodeURIComponent(it.path));
+const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.path)}`)
+
       if (!resp.ok) throw new Error("فشل الاتصال");
       const html = await resp.text();
       const parser = new DOMParser();
@@ -676,6 +689,8 @@ if (!items || items.length === 0) {
    // Open phone - fetch details and parse
    async function openPhone(path, title) {
     showLoader("جاري جلب مواصفات الهاتف...");
+    playSound(soundSuccess); // ← صوت النجاح عند عرض التفاصيل
+
     try {
       await new Promise(r => setTimeout(r, 4000)); // ⏳ انتظر 4 ثوانٍ قبل جلب التفاصيل
 
@@ -843,6 +858,8 @@ if (!items || items.length === 0) {
      });
     }
    });
+
+
    // 🔋 عرض اللودر
 function showLoader(text = "جارٍ التحميل...") {
   const loader = document.getElementById("loader");
@@ -873,17 +890,29 @@ window.addEventListener("load", () => {
   showLoader("جارٍ التحميل...");
   setTimeout(() => {
     hideLoader();
-  }, 2000);
-});
-// عند تحميل الصفحة لأول مرة: أظهر اللودر ثم أخفِه بعد مدة قصيرة
-window.addEventListener("load", () => {
-  // إظهار اللودر فوراً
-  showLoader("جارٍ التحميل...");
-  // إخفاء بعد 2 ثانية (غيّر الوقت حسب رغبتك)
-  setTimeout(() => hideLoader(), 2000);
+  }, 400);
 });
 
+const soundLoad = document.getElementById("soundLoad");
+const soundSuccess = document.getElementById("soundSuccess");
+const soundError = document.getElementById("soundError");
+
+function playSound(audio) {
+  if (!audio) return;
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
    // --- نهاية السكريبتات ---
   </script>
+  <!-- أصوات متعددة -->
+<audio id="soundLoad" preload="auto">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+</audio>
+<audio id="soundSuccess" preload="auto">
+  <source src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" type="audio/ogg">
+</audio>
+<audio id="soundError" preload="auto">
+  <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
+</audio>
  </body>
 </html>
