@@ -6,21 +6,21 @@ module.exports = async (req, res) => {
     const path = req.query.path;
     if (!path) return res.status(400).send('path query required');
 
-    // Ensure we don't allow external redirects - only fetch from gsmarena
-    const cleanPath = path.replace(/[^a-zA-Z0-9_\-\(\)\.]/g, '');
-    const url = 'https://www.gsmarena.com/' + cleanPath;
-
+    // جلب صفحة الهاتف من Telfonak
+    const url = path.startsWith('http') ? path : 'https://telfonak.com' + path;
     const resp = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!resp.ok) return res.status(502).send('Bad response from GSMArena: ' + resp.status);
+    if (!resp.ok) return res.status(502).send('Bad response from Telfonak: ' + resp.status);
+
     const text = await resp.text();
     const $ = cheerio.load(text);
 
-    // Extract the main specs table and the header (title + image)
-    const header = $('.specs-phone-title').html() || $('.article-info').html() || '';
-    const specsList = $('#specs-list').html() || '';
-    const imageHtml = $('.specs-photo-main').html() || $('.review-gallery').html() || '';
+    // الصورة والعنوان
+    const header = $('.entry-title').first().html() || '';
+    const imageHtml = $('.entry-content img').first().parent().html() || '';
+    
+    // المواصفات عادة داخل جدول أو div.specs
+    const specsList = $('.specs, table').first().html() || $('.entry-content table').first().html() || '';
 
-    // Build a simple HTML block to return to the frontend
     const out = `
       <div class="row">
         <div class="col-md-4">
@@ -34,8 +34,9 @@ module.exports = async (req, res) => {
       <div>
         ${specsList}
       </div>
-      <div class="mt-3 text-muted small">Source: GSM Arena</div>
+      <div class="mt-3 text-muted small">Source: Telfonak</div>
     `;
+
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(out);
   } catch (err) {
