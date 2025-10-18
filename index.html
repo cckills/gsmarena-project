@@ -814,8 +814,11 @@ const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.pat
       }
      });
 
-     document.getElementById("modalTitle").textContent = title;
-} catch (err) {
+document.getElementById("modalTitle").textContent = title;
+
+    // ✅ أضف هذين السطرين هنا:
+    hideLoader();     // لإخفاء شاشة التحميل
+    modalEl.show();   // لإظهار نافذة المودال} catch (err) {
   hideLoader(); // ← أولاً أخفِ التحميل فورًا
   await Swal.fire({
     icon: "error",
