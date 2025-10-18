@@ -597,16 +597,18 @@ const API_BASE =
 
      const data = await resp.json();
 
-     renderResults(data);
+     // 🔄 نعرض النتائج ثم ننتظر انتهاء تحميل المعالجات كلها
+     await renderResults(data);
      playSound(soundSuccess); // ← صوت النجاح
 
     } catch (err) {
-playSound(soundError); // ← صوت الخطأ
-
-     resultsEl.innerHTML = '<div class="text-danger text-center py-3">فشل البحث: ' + (err.message || err) + "</div>";
+      playSound(soundError); // ← صوت الخطأ
+      resultsEl.innerHTML = '<div class="text-danger text-center py-3">فشل البحث: ' + (err.message || err) + "</div>";
     } finally {
-     hideLoader();
+      // ✅ لا نخفي اللودر إلا بعد انتهاء كل شيء
+      hideLoader();
     }
+
    }
 
 
@@ -677,6 +679,8 @@ const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.pat
 
      // عند الضغط على النتيجة
      div.addEventListener("click", () => openPhone(it.path, it.title));
+       return true;
+
     }
    }
 
