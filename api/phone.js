@@ -3,72 +3,42 @@ const cheerio = require('cheerio');
 
 module.exports = async (req, res) => {
   try {
-    const query = req.query.name;
-    if (!query) return res.status(400).json({ error: 'name query required' });
+    const path = req.query.path;
+    if (!path) return res.status(400).send('path query required');
 
-    const url = `https://www.gsmarena.com/results.php3?sQuickSearch=yes&sName=${encodeURIComponent(query)}`;
+    // Ensure we don't allow external redirects - only fetch from gsmarena
+    const cleanPath = path.replace(/[^a-zA-Z0-9_\-\(\)\.]/g, '');
+    const url = 'https://www.gsmarena.com/' + cleanPath;
+
     const resp = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
+    if (!resp.ok) return res.status(502).send('Bad response from GSMArena: ' + resp.status);
     const text = await resp.text();
     const $ = cheerio.load(text);
 
-    let results = [];
-    $('.makers li a').each((i, el) => {
-      const href = $(el).attr('href');
-      const title = $(el).find('strong').text().trim() || $(el).text().trim();
-      const subtitle = $(el).find('span').text().trim() || '';
-      let thumb = $(el).find('img').attr('src') || '';
-      if (thumb && thumb.startsWith('//')) thumb = 'https:' + thumb;
-      results.push({ title, subtitle, path: href, thumb });
-    });
+    // Extract the main specs table and the header (title + image)
+    const header = $('.specs-phone-title').html() || $('.article-info').html() || '';
+    const specsList = $('#specs-list').html() || '';
+    const imageHtml = $('.specs-photo-main').html() || $('.review-gallery').html() || '';
 
-    // fallback: البحث بالموديل داخل المواصفات
-    if (results.length === 0) {
-      console.log('No direct results found — trying deep model search...');
-      const altUrl = `https://www.gsmarena.com/results.php3?sQuickSearch=yes&sName=${encodeURIComponent(query.slice(0, 4))}`;
-      const altResp = await fetch(altUrl, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-      const altText = await altResp.text();
-      const $$ = cheerio.load(altText);
-      const links = [];
-
-      $$('.makers li a').each((i, el) => {
-        const href = $$(el).attr('href');
-        if (href) links.push('https://www.gsmarena.com/' + href);
-      });
-
-      for (const link of links.slice(0, 15)) {
-        try {
-          const phoneResp = await fetch(link, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-          const phoneText = await phoneResp.text();
-          const p$ = cheerio.load(phoneText);
-
-          // ابحث في data-spec="models" أو في النص الكامل للمواصفات
-          const modelsText = p$('[data-spec="models"]').text().toLowerCase();
-          const specsText = p$('#specs-list').text().toLowerCase();
-
-          if (
-            modelsText.includes(query.toLowerCase()) ||
-            specsText.includes(query.toLowerCase())
-          ) {
-            const title = p$('.specs-phone-name-title').first().text().trim() || 'Unknown';
-            const thumb = 'https://www.gsmarena.com/' + (p$('.specs-photo-main img').attr('src') || '');
-            const path = link.split('gsmarena.com/')[1];
-            results.push({ title, subtitle: '', path, thumb });
-            break;
-          }
-        } catch (e) {
-          console.error('error parsing phone page', e.message);
-        }
-      }
-    }
-
-    if (results.length === 0) {
-      return res.status(404).json({ error: 'no matching phones found' });
-    }
-
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(results));
+    // Build a simple HTML block to return to the frontend
+    const out = `
+      <div class="row">
+        <div class="col-md-4">
+          ${imageHtml}
+        </div>
+        <div class="col-md-8">
+          ${header}
+        </div>
+      </div>
+      <hr/>
+      <div>
+        ${specsList}
+      </div>
+      <div class="mt-3 text-muted small">Source: GSM Arena</div>
+    `;
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(out);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
+    res.status(500).send('Error: ' + err.message);
   }
 };
