@@ -11,6 +11,35 @@
 <meta name="theme-color" content="#0d6efd">
 
   <style>
+    /* 🌞 الوضع الفاتح */
+div.fw-bold {
+  color: #222 !important;
+  transition: color 0.3s ease;
+}
+
+div.text-muted {
+  color: #6c757d !important; /* الرمادي الافتراضي في Bootstrap */
+  transition: color 0.3s ease;
+}
+
+footer.text-muted {
+  color: #6c757d !important;
+  transition: color 0.3s ease;
+}
+
+/* 🌙 الوضع الداكن */
+body.dark-mode div.fw-bold {
+  color: #f8f9fa !important;
+}
+
+body.dark-mode div.text-muted {
+  color: #b0b0b0 !important;
+}
+
+body.dark-mode footer.text-muted {
+  color: #b0b0b0 !important;
+}
+
 /* 📱 جميع تعديلات الهاتف مجمعة في كتلة واحدة */
 @media (max-width: 576px) {
 
@@ -558,20 +587,25 @@ body.dark-mode .specs-card .text-muted {
      </div>
     </div>
    </header>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-2">
+      <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
+      <input list="searchHistory" id="query" class="form-control mb-2" placeholder="ابحث عن هاتف..." autocomplete="off">
+      <datalist id="searchHistory"></datalist>
 
-   <div class="card mb-3">
-    <div class="card-body">
-     <div class="row g-2">
-      <div class="col-12 col-md-9">
-  <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
-       <input id="query" class="form-control" placeholder="ابحث عن هاتف (مثال: Y9 او STK-L21 )" />
+      <!-- الأزرار على نفس الخط -->
+      <div class="d-flex gap-2">
+        <button id="searchBtn" class="btn btn-primary" style="flex: 3;">
+          بحث
+        </button>
+        <button id="clearHistoryBtn" class="btn btn-outline-danger" style="flex: 1;">
+          🗑️ مسح سجل البحث
+        </button>
       </div>
-      <div class="col-12 col-md-3 d-grid">
-       <button id="searchBtn" class="btn btn-primary">بحث</button>
-      </div>
-     </div>
     </div>
-   </div>
+  </div>
+</div>
 
    <div class="card p-3 mb-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -721,13 +755,72 @@ const API_BASE =
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:3000" // عنوان السيرفر المحلي
     : "https://gsmarena-project.vercel.app";  // <-- غيّره إلى عنوان سيرفرك الفعلي أو API المستضيف
+// 🧠 حفظ سجل عمليات البحث وعرضه كمقترحات
+const searchHistoryEl = document.getElementById("searchHistory");
+const queryEl = document.getElementById("query");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+const clearHistoryContainer = document.getElementById("clearHistoryContainer");
 
-   // Search handlers
-   const queryEl = document.getElementById("query");
-   document.getElementById("searchBtn").addEventListener("click", doSearch);
-   queryEl.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") doSearch();
-   });
+// تحميل السجل عند فتح الصفحة
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+
+// تحديث واجهة المستخدم بالكامل: datalist + زر المسح
+function refreshSearchUI() {
+  searchHistoryEl.innerHTML = searchHistory
+    .map(item => `<option value="${item}">`)
+    .join("");
+
+// حفظ كلمة بحث جديدة
+function saveToHistory(term) {
+  if (!term || searchHistory.includes(term)) return;
+  searchHistory.unshift(term);
+  if (searchHistory.length > 10) searchHistory.pop(); // نحتفظ بآخر 10 فقط
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  refreshSearchUI();
+}
+
+// التعامل مع البحث عبر زر أو Enter
+document.getElementById("searchBtn").addEventListener("click", doSearch);
+queryEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") doSearch();
+});
+// إخفاء المقترحات عند الضغط خارج مربع البحث
+document.addEventListener("click", (e) => {
+  if (e.target !== queryEl) {
+    queryEl.blur();
+  }
+});
+
+// زر مسح السجل
+clearHistoryBtn.addEventListener("click", () => {
+  Swal.fire({
+    title: "تأكيد",
+    text: "هل تريد مسح سجل البحث بالكامل؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "نعم، احذف",
+    cancelButtonText: "إلغاء",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("searchHistory");
+      searchHistory = [];
+      refreshSearchUI();
+      Swal.fire({
+        icon: "success",
+        title: "تم الحذف بنجاح ✅",
+        text: "تم مسح جميع عمليات البحث السابقة.",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }
+  });
+});
+
+// تهيئة الواجهة عند تحميل الصفحة
+refreshSearchUI();
+    
+
+
 
    async function doSearch() {
     const q = queryEl.value.trim();
@@ -735,6 +828,10 @@ const API_BASE =
      await Swal.fire("ملاحظة", "الرجاء إدخال نص للبحث.", "info");
      return;
     }
+    
+  // 🧠 حفظ الكلمة في سجل البحث (حتى تظهر لاحقًا كمقترح)
+  saveToHistory(q);
+  
 // عرض اللودر عند بدء البحث
   showLoader("جارٍ البحث عن الهاتف...");
       try {
@@ -755,6 +852,8 @@ const API_BASE =
     } finally {
       // ✅ لا نخفي اللودر إلا بعد انتهاء كل شيء
       hideLoader();
+          queryEl.blur(); // ← إخفاء قائمة المقترحات
+
     }
 
    }
