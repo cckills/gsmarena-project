@@ -1,4 +1,5 @@
-const CACHE_NAME = 'gsmarena-cache-v1';
+const CACHE_VERSION = new Date().toISOString().replace(/[:.]/g, '-');
+const CACHE_NAME = `gsmarena-cache-${CACHE_VERSION}`;
 const urlsToCache = [
   '/',
   '/index.html',
@@ -37,3 +38,4 @@ self.addEventListener('fetch', event => {
       .then(response => response || fetch(event.request))
   );
 });
+
