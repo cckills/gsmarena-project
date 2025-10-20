@@ -1048,21 +1048,7 @@ function hideLoader() {
 window.addEventListener("load", async () => {
   showLoader("جارٍ التحميل...");
 
-  // نحاول اختبار سرعة التحميل عبر طلب صغير
-  try {
-    const testUrl = `${API_BASE}/api/ping`; // يمكنك تعديل هذا إلى أي endpoint بسيط
-    const resp = await fetch(testUrl, { method: "GET" });
-    if (!resp.ok) throw new Error("فشل في الاتصال بالـ API");
-
-    // تم الاتصال بنجاح → إخفاء اللودر مباشرة
-    hideLoader();
-
-  } catch (err) {
-    // لو فشل الاتصال، انتظر قليلاً ثم أخفِ اللودر لتفادي التجمّد
-    console.warn("Network slow or unreachable:", err);
-    setTimeout(() => hideLoader(), 4000);
-  }
-});
+ 
 
 
 const soundLoad = document.getElementById("soundLoad");
