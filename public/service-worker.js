@@ -1,4 +1,3 @@
-
 const CACHE_NAME = "gsmarena-cache-v1";
 const urlsToCache = [
   "/",
