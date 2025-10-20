@@ -1,13 +1,8 @@
-
 const CACHE_NAME = "gsmarena-cache-v1";
 const urlsToCache = [
   "/",
   "/index.html",
-  "/manifest.json",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  "/manifest.json"
 ];
 
 self.addEventListener("install", event => {
