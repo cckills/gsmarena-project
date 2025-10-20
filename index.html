@@ -11,6 +11,15 @@
 <meta name="theme-color" content="#0d6efd">
 
   <style>
+
+    .specs-card {
+  background: rgba(var(--bs-primary-rgb), 0.1) !important;
+  border-radius: 12px;
+  transition: background 0.3s ease;
+}
+body.dark-mode .specs-card {
+  background: rgba(var(--bs-primary-rgb), 0.25) !important;
+}
 /* 📱 تصغير شبكة النتائج على الهاتف فقط */
 @media (max-width: 576px) {
   .results-grid {
@@ -648,24 +657,6 @@
     const loader = document.getElementById("loader");
   const chargeSound = document.getElementById("chargeSound");
 
-  function showLoader(text = "جارٍ التحميل...") {
-    document.body.classList.add("loading");
-    loader.querySelector(".loading-text").textContent = text;
-  playSound(soundLoad); // ← صوت التحميل
-
-    if (chargeSound) {
-      chargeSound.currentTime = 0;
-      chargeSound.play().catch(() => {});
-    }
-
-    loader.classList.remove("hidden");
-  }
-
-  function hideLoader() {
-    loader.classList.add("hidden");
-    document.body.classList.remove("loading");
-  }
-
   
    // Fade wrapper (لانتقال ناعم عند تبديل الثيم)
    const pageWrapper = document.getElementById("pageWrapper");
@@ -906,29 +897,29 @@ async function openPhone(path, title) {
      const dsMem = doc.querySelector('[data-spec="internalmemory"], [data-spec="memory"], [data-spec="storage"]');
      if (dsMem) memText = dsMem.innerText.trim();
 
-     const colors = ["#e0f7fa", "#ffe0b2", "#f3e5f5", "#c8e6c9", "#fff9c4", "#ffccbc"];
-     const specs = [
-      { icon: "📅", name: "سنة الإصدار", value: yearText },
-      { icon: "⚙️", name: "نظام التشغيل", value: osText },
-      { icon: "🧠", name: "المعالج / الشريحة", value: chipText },
-      { icon: "⚡", name: "وحدة المعالجة المركزية", value: cpuText },
-      { icon: "🎮", name: "وحدة الرسوميات", value: gpuText },
-      { icon: "💾", name: "الذاكرة", value: memText },
-     ];
+    // const colors = ["#e0f7fa", "#ffe0b2", "#f3e5f5", "#c8e6c9", "#fff9c4", "#ffccbc"];
+    const specs = [
+  { icon: "📅", name: "سنة الإصدار", value: yearText },
+  { icon: "⚙️", name: "نظام التشغيل", value: osText },
+  { icon: "🧠", name: "المعالج / الشريحة", value: chipText },
+  { icon: "⚡", name: "وحدة المعالجة المركزية", value: cpuText },
+  { icon: "🎮", name: "وحدة الرسوميات", value: gpuText },
+  { icon: "💾", name: "الذاكرة", value: memText },
+];
 
-     const specContainer = document.getElementById("spec-cards");
-     specContainer.innerHTML = "";
-     specs.forEach((s, i) => {
-      const card = document.createElement("div");
-      card.className = "col-6 col-md-4";
-      card.innerHTML = `
-        <div class="card text-center p-3 shadow-sm h-100" style="background:${colors[i]}; border-radius:12px;">
-          <div class="fw-bold mb-1">${s.icon} ${s.name}</div>
-          <div class="text-muted small">${s.value}</div>
-        </div>
-      `;
-      specContainer.appendChild(card);
-     });
+const specContainer = document.getElementById("spec-cards");
+specs.forEach((s) => {
+  const card = document.createElement("div");
+  card.className = "col-6 col-md-4";
+  card.innerHTML = `
+    <div class="specs-card card text-center p-3 shadow-sm h-100">
+      <div class="fw-bold mb-1">${s.icon} ${s.name}</div>
+      <div class="text-muted small">${s.value}</div>
+    </div>
+  `;
+  specContainer.appendChild(card);
+});
+
 
      // توزيع الجداول على التبويبات المناسبة
      tables.forEach((tbl) => {
@@ -1036,7 +1027,6 @@ function showLoader(text = "جارٍ التحميل...") {
 
   loader.classList.remove("hidden");
 }
-
 // ❌ إخفاء اللودر
 function hideLoader() {
   const loader = document.getElementById("loader");
@@ -1047,9 +1037,7 @@ function hideLoader() {
 // ✅ عند تحميل الصفحة لأول مرة
 window.addEventListener("load", async () => {
   showLoader("جارٍ التحميل...");
-
- 
-
+});
 
 const soundLoad = document.getElementById("soundLoad");
 const soundSuccess = document.getElementById("soundSuccess");
@@ -1069,6 +1057,7 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.error("❌ فشل التسجيل:", err));
   });
 }
+
    // --- نهاية السكريبتات ---
   </script>
   <!-- أصوات متعددة -->
