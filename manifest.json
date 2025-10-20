@@ -8,7 +8,6 @@
   "orientation": "portrait",
   "background_color": "#0d6efd",
   "theme_color": "#0d6efd",
-
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -27,6 +26,5 @@
       "purpose": "any maskable"
     }
   ],
-
   "splash_pages": null
 }
