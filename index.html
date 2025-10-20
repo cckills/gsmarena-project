@@ -11,27 +11,71 @@
 <meta name="theme-color" content="#0d6efd">
 
   <style>
-
-    .specs-card {
-  background: rgba(var(--bs-primary-rgb), 0.1) !important;
-  border-radius: 12px;
-  transition: background 0.3s ease;
-}
-body.dark-mode .specs-card {
-  background: rgba(var(--bs-primary-rgb), 0.25) !important;
-}
-/* 📱 تصغير شبكة النتائج على الهاتف فقط */
+/* 📱 جميع تعديلات الهاتف مجمعة في كتلة واحدة */
 @media (max-width: 576px) {
+
+  /* شبكة النتائج */
   .results-grid {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
     gap: 0.4rem !important;
   }
 
+  /* شكل عناصر النتائج */
   .result-item {
     padding: 0.5rem !important;
     border-radius: 10px !important;
   }
 
+  /* الصور داخل النتائج */
+  .result-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .phone-thumb {
+    height: 120px;
+  }
+
+  /* اللودر */
+  .phone {
+    width: 140px;
+    height: 260px;
+    border-radius: 20px;
+  }
+
+  .loading-text {
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+
+  /* زر البحث */
+  #searchBtn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  #query {
+    font-size: 0.95rem;
+  }
+
+  /* زر تبديل الثيم */
+  #themeToggle {
+    width: 44px;
+    height: 44px;
+    bottom: 14px;
+    right: 14px;
+  }
+}
+/* 📱 تحسين عرض بطاقات المواصفات داخل المودال على الشاشات الصغيرة */
+.specs-card {
+  background: rgba(var(--bs-primary-rgb), 0.1) !important;
+}
+body.dark-mode .specs-card .text-muted {
+  color: #ccc !important;
+}
+
+@media (max-width: 576px) {
   .result-thumb {
     width: 55px !important;
     height: 55px !important;
@@ -56,18 +100,6 @@ body.dark-mode .specs-card {
 }
 
 
-/* لجعل اللودر أصغر على الجوال */
-@media (max-width: 576px) {
-  .phone {
-    width: 140px;
-    height: 260px;
-    border-radius: 20px;
-  }
-  .loading-text {
-    font-size: 1rem;
-    margin-top: 12px;
-  }
-}
 
 /* إدخال تجاوب لواجهة النتائج */
 @media (max-width: 768px) {
@@ -114,17 +146,6 @@ body.dark-mode .specs-card {
   }
 }
 
-/* تحسين مظهر أزرار البحث لتملأ العرض بالكامل على الجوال */
-@media (max-width: 576px) {
-  #searchBtn {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-  #query {
-    font-size: 0.95rem;
-  }
-}
 
 /* جعل الجداول داخل المودال قابلة للتمرير */
 #specModal table {
@@ -502,21 +523,6 @@ body.dark-mode .specs-card {
     opacity: 0.35;
    }
 
-   @media (max-width: 576px) {
-    .result-thumb {
-     width: 64px;
-     height: 64px;
-    }
-    .phone-thumb {
-     height: 120px;
-    }
-    #themeToggle {
-     width: 44px;
-     height: 44px;
-     bottom: 14px;
-     right: 14px;
-    }
-   }
   </style>
  </head>
  
@@ -656,11 +662,19 @@ body.dark-mode .specs-card {
   <script>
     const loader = document.getElementById("loader");
   const chargeSound = document.getElementById("chargeSound");
+// أصوات متعددة
+const soundLoad = document.getElementById("soundLoad");
+const soundSuccess = document.getElementById("soundSuccess");
+const soundError = document.getElementById("soundError");
 
-  
+function playSound(audio) {
+  if (!audio) return;
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
+ 
    // Fade wrapper (لانتقال ناعم عند تبديل الثيم)
    const pageWrapper = document.getElementById("pageWrapper");
-
    // Theme toggle (يدوي فقط) + حفظ في localStorage
    const themeToggle = document.getElementById("themeToggle");
    const savedTheme = localStorage.getItem("theme") || "light";
@@ -766,9 +780,7 @@ if (!items || items.length === 0) {
     for (const it of items) {
      const div = document.createElement("div");
      div.className = isGrid ? "result-item" : "result-item d-flex";
-
      const thumb = `<img src="${it.thumb || ""}" class="${isGrid ? "result-thumb" : "result-thumb me-3"}" alt="صورة">`;
-
      // عنصر لعرض اسم الهاتف والمعالج
      const nameChipHTML = document.createElement("div");
      nameChipHTML.className = isGrid ? "" : "flex-grow-1 ms-3";
@@ -1037,18 +1049,8 @@ function hideLoader() {
 // ✅ عند تحميل الصفحة لأول مرة
 window.addEventListener("load", async () => {
   showLoader("جارٍ التحميل...");
+  setTimeout(() => hideLoader(), 2000); // يخفيه بعد ثانيتين
 });
-
-const soundLoad = document.getElementById("soundLoad");
-const soundSuccess = document.getElementById("soundSuccess");
-const soundError = document.getElementById("soundError");
-
-function playSound(audio) {
-  if (!audio) return;
-  audio.currentTime = 0;
-  audio.play().catch(() => {});
-}
- 
 // Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
