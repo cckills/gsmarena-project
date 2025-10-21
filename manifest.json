@@ -1,6 +1,6 @@
 {
-  "name": "GSM Arena Project",
-  "short_name": "GSM Arena",
+  "name": "Chipset",
+  "short_name": "Chipset",
   "description": "تطبيق ويب يعرض معلومات هواتف GSM Arena بسرعة وسهولة.",
   "start_url": "/",
   "scope": "/",
