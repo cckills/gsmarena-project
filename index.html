@@ -769,6 +769,7 @@ function refreshSearchUI() {
   searchHistoryEl.innerHTML = searchHistory
     .map(item => `<option value="${item}">`)
     .join("");
+} // <-- إغلاق الدالة هنا
 
 // حفظ كلمة بحث جديدة
 function saveToHistory(term) {
