@@ -5,196 +5,194 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>مواصفات الهواتف</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="icon" href="/icons/favicon.ico">
-<!-- Manifest -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0d6efd">
+  <link rel="icon" href="/icons/favicon.ico" />
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0d6efd" />
 
   <style>
-    
-    /* 🌞 الوضع الفاتح */
-div.fw-bold {
-  color: #222 !important;
-  transition: color 0.3s ease;
-}
-div.text-muted {
-  color: #6c757d !important; /* الرمادي الافتراضي في Bootstrap */
-  transition: color 0.3s ease;
-}
-footer.text-muted {
-  color: #6c757d !important;
-  transition: color 0.3s ease;
-}
-/* 🌙 الوضع الداكن */
-body.dark-mode div.fw-bold {
-  color: #f8f9fa !important;
-}
+   /* 🌞 الوضع الفاتح */
+   div.fw-bold {
+    color: #222 !important;
+    transition: color 0.3s ease;
+   }
+   div.text-muted {
+    color: #6c757d !important; /* الرمادي الافتراضي في Bootstrap */
+    transition: color 0.3s ease;
+   }
+   footer.text-muted {
+    color: #6c757d !important;
+    transition: color 0.3s ease;
+   }
+   /* 🌙 الوضع الداكن */
+   body.dark-mode div.fw-bold {
+    color: #f8f9fa !important;
+   }
 
-body.dark-mode div.text-muted {
-  color: #b0b0b0 !important;
-}
+   body.dark-mode div.text-muted {
+    color: #b0b0b0 !important;
+   }
 
-body.dark-mode footer.text-muted {
-  color: #b0b0b0 !important;
-}
+   body.dark-mode footer.text-muted {
+    color: #b0b0b0 !important;
+   }
 
-/* 📱 جميع تعديلات الهاتف مجمعة في كتلة واحدة */
-@media (max-width: 576px) {
+   /* 📱 جميع تعديلات الهاتف مجمعة في كتلة واحدة */
+   @media (max-width: 576px) {
+    /* شبكة النتائج */
+    .results-grid {
+     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
+     gap: 0.4rem !important;
+    }
 
-  /* شبكة النتائج */
-  .results-grid {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
-    gap: 0.4rem !important;
-  }
+    /* شكل عناصر النتائج */
+    .result-item {
+     padding: 0.5rem !important;
+     border-radius: 10px !important;
+    }
 
-  /* شكل عناصر النتائج */
-  .result-item {
-    padding: 0.5rem !important;
-    border-radius: 10px !important;
-  }
+    /* الصور داخل النتائج */
+    .result-thumb {
+     width: 64px;
+     height: 64px;
+    }
 
-  /* الصور داخل النتائج */
-  .result-thumb {
-    width: 64px;
-    height: 64px;
-  }
+    .phone-thumb {
+     height: 120px;
+    }
 
-  .phone-thumb {
-    height: 120px;
-  }
+    /* اللودر */
+    .phone {
+     width: 140px;
+     height: 260px;
+     border-radius: 20px;
+    }
 
-  /* اللودر */
-  .phone {
-    width: 140px;
-    height: 260px;
-    border-radius: 20px;
-  }
+    .loading-text {
+     font-size: 1rem;
+     margin-top: 12px;
+    }
 
-  .loading-text {
-    font-size: 1rem;
-    margin-top: 12px;
-  }
+    /* زر البحث */
+    #searchBtn {
+     width: 100%;
+     font-size: 1rem;
+     padding: 10px;
+    }
 
-  /* زر البحث */
-  #searchBtn {
+    #query {
+     font-size: 0.95rem;
+    }
+
+    /* زر تبديل الثيم */
+    #themeToggle {
+     width: 44px;
+     height: 44px;
+     bottom: 14px;
+     right: 14px;
+    }
+   }
+   /* 📱 تحسين عرض بطاقات المواصفات داخل المودال على الشاشات الصغيرة */
+   .specs-card {
+    background: rgba(var(--bs-primary-rgb), 0.1) !important;
+   }
+   body.dark-mode .specs-card .text-muted {
+    color: #ccc !important;
+   }
+
+   @media (max-width: 576px) {
+    .result-thumb {
+     width: 55px !important;
+     height: 55px !important;
+    }
+
+    .result-item .fw-bold {
+     font-size: 0.8rem !important;
+     line-height: 1.1;
+    }
+
+    .result-item .text-muted {
+     font-size: 0.7rem !important;
+    }
+   }
+
+   /* 💻 على الشاشات الكبيرة يبقى التصميم الطبيعي كما هو */
+   @media (min-width: 577px) {
+    .results-grid {
+     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+     gap: 1rem;
+    }
+   }
+   /* إدخال تجاوب لواجهة النتائج */
+   @media (max-width: 768px) {
+    .result-item {
+     padding: 0.75rem;
+    }
+    .result-thumb {
+     width: 70px !important;
+     height: 70px !important;
+    }
+    .results-grid {
+     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+     gap: 0.75rem;
+    }
+   }
+   /* تحسين عرض المودال على الشاشات الصغيرة */
+   @media (max-width: 768px) {
+    .modal-dialog {
+     margin: 0;
+     width: 100%;
+     max-width: none;
+     height: 100%;
+    }
+    .modal-content {
+     height: 100%;
+     border-radius: 0 !important;
+    }
+    #specModal .modal-body {
+     padding: 1rem;
+     overflow-y: auto;
+    }
+    #specModal img {
+     max-height: 180px !important;
+    }
+    .nav-tabs {
+     flex-wrap: wrap;
+     font-size: 0.9rem;
+    }
+    .nav-tabs .nav-link {
+     flex: 1 0 45%;
+     text-align: center;
+     margin-bottom: 6px;
+    }
+   }
+   /* جعل الجداول داخل المودال قابلة للتمرير */
+   #specModal table {
+    display: block;
     width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-
-  #query {
-    font-size: 0.95rem;
-  }
-
-  /* زر تبديل الثيم */
-  #themeToggle {
-    width: 44px;
-    height: 44px;
-    bottom: 14px;
-    right: 14px;
-  }
-}
-/* 📱 تحسين عرض بطاقات المواصفات داخل المودال على الشاشات الصغيرة */
-.specs-card {
-  background: rgba(var(--bs-primary-rgb), 0.1) !important;
-}
-body.dark-mode .specs-card .text-muted {
-  color: #ccc !important;
-}
-
-@media (max-width: 576px) {
-  .result-thumb {
-    width: 55px !important;
-    height: 55px !important;
-  }
-
-  .result-item .fw-bold {
-    font-size: 0.8rem !important;
-    line-height: 1.1;
-  }
-
-  .result-item .text-muted {
-    font-size: 0.7rem !important;
-  }
-}
-
-/* 💻 على الشاشات الكبيرة يبقى التصميم الطبيعي كما هو */
-@media (min-width: 577px) {
-  .results-grid {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 1rem;
-  }
-}
-/* إدخال تجاوب لواجهة النتائج */
-@media (max-width: 768px) {
-  .result-item {
-    padding: 0.75rem;
-  }
-  .result-thumb {
-    width: 70px !important;
-    height: 70px !important;
-  }
-  .results-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 0.75rem;
-  }
-}
-/* تحسين عرض المودال على الشاشات الصغيرة */
-@media (max-width: 768px) {
-  .modal-dialog {
-    margin: 0;
-    width: 100%;
-    max-width: none;
-    height: 100%;
-  }
-  .modal-content {
-    height: 100%;
-    border-radius: 0 !important;
-  }
-  #specModal .modal-body {
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  #specModal img {
-    max-height: 180px !important;
-  }
-  .nav-tabs {
-    flex-wrap: wrap;
-    font-size: 0.9rem;
-  }
-  .nav-tabs .nav-link {
-    flex: 1 0 45%;
-    text-align: center;
-    margin-bottom: 6px;
-  }
-}
-/* جعل الجداول داخل المودال قابلة للتمرير */
-#specModal table {
-  display: block;
-  width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-/* تحسين SweetAlert2 ليكون متجاوبًا */
-.swal2-popup {
-  font-size: 0.95rem !important;
-  width: min(90%, 400px) !important;
-  border-radius: 16px !important;
-}
-.swal2-title {
-  font-size: 1.2rem !important;
-}
-.swal2-html-container {
-  font-size: 0.95rem !important;
-}
- body.loading {
+    overflow-x: auto;
+    white-space: nowrap;
+   }
+   /* تحسين SweetAlert2 ليكون متجاوبًا */
+   .swal2-popup {
+    font-size: 0.95rem !important;
+    width: min(90%, 400px) !important;
+    border-radius: 16px !important;
+   }
+   .swal2-title {
+    font-size: 1.2rem !important;
+   }
+   .swal2-html-container {
+    font-size: 0.95rem !important;
+   }
+   body.loading {
     overflow: hidden;
-  }
-  body.loading #loader {
+   }
+   body.loading #loader {
     opacity: 1 !important;
     visibility: visible !important;
-  }
-  .loader-overlay {
+   }
+   .loader-overlay {
     position: fixed;
     inset: 0;
     background: #2aa53e6b;
@@ -203,55 +201,61 @@ body.dark-mode .specs-card .text-muted {
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    transition: opacity 0.8s ease, visibility 0.8s ease;
+    transition:
+     opacity 0.8s ease,
+     visibility 0.8s ease;
     color: white;
     font-family: "Cairo", sans-serif;
-  }
+   }
 
-  .loader-overlay.hidden {
+   .loader-overlay.hidden {
     opacity: 0;
     visibility: hidden;
-  }
+   }
 
-  .phone {
+   .phone {
     width: 190px;
     height: 360px;
     border-radius: 28px;
     background: linear-gradient(145deg, #0b0b0b, #1e1e1e);
     position: relative;
-    border: 3px solid rgba(100,100,100,0.3);
+    border: 3px solid rgba(100, 100, 100, 0.3);
     box-shadow:
-      0 25px 60px rgba(0,0,0,0.6),
-      inset 0 0 20px rgba(255,255,255,0.05);
+     0 25px 60px rgba(0, 0, 0, 0.6),
+     inset 0 0 20px rgba(255, 255, 255, 0.05);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+   }
 
-  .phone::before {
+   .phone::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+    background: linear-gradient(120deg, transparent 40%, rgba(255, 255, 255, 0.15) 50%, transparent 60%);
     animation: shine 3s infinite linear;
     pointer-events: none;
-  }
+   }
 
-  @keyframes shine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
+   @keyframes shine {
+    0% {
+     transform: translateX(-100%);
+    }
+    100% {
+     transform: translateX(100%);
+    }
+   }
 
-  .phone::after {
+   .phone::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 28px;
-    box-shadow: inset 0 0 30px rgba(0,0,0,0.5);
-  }
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+   }
 
-  .speaker {
+   .speaker {
     position: absolute;
     top: 14px;
     left: 50%;
@@ -260,9 +264,9 @@ body.dark-mode .specs-card .text-muted {
     height: 6px;
     background: #181818;
     border-radius: 4px;
-  }
+   }
 
-  .camera {
+   .camera {
     position: absolute;
     top: 10px;
     right: 14px;
@@ -272,24 +276,29 @@ body.dark-mode .specs-card .text-muted {
     background: radial-gradient(circle, #00ffcc 0%, #003333 80%);
     box-shadow: 0 0 10px #00ffcc;
     animation: camBlink 2.5s infinite;
-  }
+   }
 
-  @keyframes camBlink {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
+   @keyframes camBlink {
+    0%,
+    100% {
+     opacity: 0.4;
+    }
+    50% {
+     opacity: 1;
+    }
+   }
 
-  .battery {
+   .battery {
     width: 60px;
     height: 100px;
     background: #111;
-    border: 2px solid rgba(255,255,255,0.1);
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     position: relative;
     overflow: hidden;
-  }
+   }
 
-  .battery::after {
+   .battery::after {
     content: "";
     position: absolute;
     top: -8px;
@@ -299,9 +308,9 @@ body.dark-mode .specs-card .text-muted {
     height: 6px;
     background: #333;
     border-radius: 3px;
-  }
+   }
 
-  .battery-level {
+   .battery-level {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -310,15 +319,21 @@ body.dark-mode .specs-card .text-muted {
     background: linear-gradient(to top, #00ff55, #66ff99);
     animation: fillBattery 2.5s infinite ease-in-out;
     box-shadow: 0 0 12px #00ff55;
-  }
+   }
 
-  @keyframes fillBattery {
-    0% { height: 20%; }
-    50% { height: 95%; }
-    100% { height: 20%; }
-  }
+   @keyframes fillBattery {
+    0% {
+     height: 20%;
+    }
+    50% {
+     height: 95%;
+    }
+    100% {
+     height: 20%;
+    }
+   }
 
-  .cable {
+   .cable {
     position: absolute;
     bottom: -80px;
     left: 50%;
@@ -327,9 +342,9 @@ body.dark-mode .specs-card .text-muted {
     height: 80px;
     background: linear-gradient(to bottom, #fff, #a884ff);
     box-shadow: 0 0 10px #a884ff;
-  }
+   }
 
-  .cable::before {
+   .cable::before {
     content: "";
     position: absolute;
     top: -10px;
@@ -339,20 +354,25 @@ body.dark-mode .specs-card .text-muted {
     height: 10px;
     background: #fff;
     border-radius: 3px;
-  }
+   }
 
-  .loading-text {
+   .loading-text {
     margin-top: 20px;
     font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: 1px;
     animation: fadeText 1.5s infinite ease-in-out;
-  }
+   }
 
-  @keyframes fadeText {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
+   @keyframes fadeText {
+    0%,
+    100% {
+     opacity: 0.4;
+    }
+    50% {
+     opacity: 1;
+    }
+   }
 
    :root {
     --bg-light: #f5f8ff;
@@ -461,11 +481,11 @@ body.dark-mode .specs-card .text-muted {
     font-size: 1rem;
    }
    .result-item .text-muted {
-   /*  color: #6c757d;*/
+    /*  color: #6c757d;*/
     font-size: 0.85rem;
-        --bs-text-opacity: 1;
+    --bs-text-opacity: 1;
     color: var(--bs-secondary-color) !important;
-}
+   }
 
    /* Modal */
    #specModal .modal-content {
@@ -505,7 +525,6 @@ body.dark-mode .specs-card .text-muted {
     color: #ddd;
    }
 
-   
    /* Floating theme button */
    #themeToggle {
     position: fixed;
@@ -544,28 +563,37 @@ body.dark-mode .specs-card .text-muted {
 ;
     flex-direction: row;
     align-items: flex-end;
- }
-
+   }
   </style>
  </head>
- 
+
  <body>
+  <!-- أصوات متعددة -->
+  <audio id="soundLoad" preload="auto">
+   <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg" />
+  </audio>
+  <audio id="soundSuccess" preload="auto">
+   <source src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" type="audio/ogg" />
+  </audio>
+  <audio id="soundError" preload="auto">
+   <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg" />
+  </audio>
   <!-- ✅ اللودر الكامل -->
-<div id="loader" class="loader-overlay">
-  <div class="phone">
+  <div id="loader" class="loader-overlay">
+   <div class="phone">
     <div class="speaker"></div>
     <div class="camera"></div>
     <div class="battery">
-      <div class="battery-level"></div>
+     <div class="battery-level"></div>
     </div>
     <div class="cable"></div>
-  </div>
-  <div class="loading-text">جارٍ التحميل...</div>
+   </div>
+   <div class="loading-text">جارٍ التحميل...</div>
 
-  <audio id="chargeSound" preload="auto">
-    <source src="https://actions.google.com/sounds/v1/cartoon/siren_whistle.ogg" type="audio/ogg">
-  </audio>
-</div>
+   <audio id="chargeSound" preload="auto">
+    <source src="https://actions.google.com/sounds/v1/cartoon/siren_whistle.ogg" type="audio/ogg" />
+   </audio>
+  </div>
 
   <div class="container page-fade" id="pageWrapper">
    <header class="d-flex align-items-center justify-content-between mb-4">
@@ -582,28 +610,28 @@ body.dark-mode .specs-card .text-muted {
     </div>
    </header>
 
-  <div class="card mb-3">
-  <div class="card-body">
-    <div class="mb-2">
+   <div class="card mb-3">
+    <div class="card-body">
+     <div class="mb-2">
       <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
-      <input list="searchHistory" id="query" class="form-control mb-2" placeholder="ابحث عن هاتف..." autocomplete="off">
+      <input
+       list="searchHistory"
+       id="query"
+       class="form-control mb-2"
+       placeholder="ابحث عن هاتف..."
+       autocomplete="off"
+      />
       <datalist id="searchHistory"></datalist>
-          <!-- 🔹 الأزرار بنفس العرض والطول -->
+      <!-- 🔹 الأزرار بنفس العرض والطول -->
       <div class="d-flex gap-2">
-        <button id="searchBtn" class="btn btn-primary"style="flex: 3;">
-          🔍 بحث
-        </button>
-      <div id="clearHistoryContainer" class="text-end mt-2" style="display: none;">
-        <button id="clearHistoryBtn" class="btn btn-outline-danger" style="flex: 1;">
-          🗑️ مسح سجل البحث
-        </button>
+       <button id="searchBtn" class="btn btn-primary" style="flex: 3">🔍 بحث</button>
+       <div id="clearHistoryContainer" class="text-end mt-2" style="display: none">
+        <button id="clearHistoryBtn" class="btn btn-outline-danger" style="flex: 1">🗑️ مسح سجل البحث</button>
+       </div>
       </div>
+     </div>
     </div>
-  </div>
-</div>
-</div>
-
-
+   </div>
 
    <div class="card p-3 mb-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -674,37 +702,43 @@ body.dark-mode .specs-card .text-muted {
    </div>
   </div>
 
-
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
-  // جعل التنبيهات متجاوبة تلقائيًا وتظهر في المنتصف دائمًا
-  Swal.mixin({
+   // جعل التنبيهات متجاوبة تلقائيًا وتظهر في المنتصف دائمًا
+   Swal.mixin({
     customClass: {
-      popup: 'rounded-4 shadow-lg',
-      confirmButton: 'btn btn-primary mx-2',
-      cancelButton: 'btn btn-secondary mx-2'
+     popup: "rounded-4 shadow-lg",
+     confirmButton: "btn btn-primary mx-2",
+     cancelButton: "btn btn-secondary mx-2",
     },
-    buttonsStyling: false
-  });
-</script>
+    buttonsStyling: false,
+   });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    const loader = document.getElementById("loader");
-    // أصوات متعددة
-const chargeSound = document.getElementById("chargeSound");
-const soundLoad = document.getElementById("soundLoad");
-const soundSuccess = document.getElementById("soundSuccess");
-const soundError = document.getElementById("soundError");
+   const loader = document.getElementById("loader");
+   // أصوات متعددة
+   window.addEventListener("DOMContentLoaded", () => {
+    const chargeSound = document.getElementById("chargeSound");
+    const soundLoad = document.getElementById("soundLoad");
+    const soundSuccess = document.getElementById("soundSuccess");
+    const soundError = document.getElementById("soundError");
 
-function playSound(audio) {
-  if (!audio) return;
-  audio.currentTime = 0;
-  audio.play().catch(() => {});
-}
- 
+    // دالة لتشغيل أي صوت
+    function playSound(audio) {
+     if (!audio) return;
+     audio.currentTime = 0;
+     audio.play().catch(() => {});
+    }
+
+    // مثال: تشغيل صوت عند الضغط على زر البحث
+    document.getElementById("searchBtn").addEventListener("click", () => {
+     playSound(soundLoad);
+    });
+   });
+
    // Fade wrapper (لانتقال ناعم عند تبديل الثيم)
    const pageWrapper = document.getElementById("pageWrapper");
    // Theme toggle (يدوي فقط) + حفظ في localStorage
@@ -730,7 +764,10 @@ function playSound(audio) {
    });
 
    // Init modal
-   const modalEl = new bootstrap.Modal(document.getElementById("specModal"), { backdrop: "static", keyboard: false });
+   const modalEl = new bootstrap.Modal(document.getElementById("specModal"), {
+    backdrop: "static",
+    keyboard: false,
+   });
 
    // View mode (grid/list)
    let isGrid = localStorage.getItem("viewMode") === "grid";
@@ -748,101 +785,105 @@ function playSound(audio) {
     localStorage.setItem("viewMode", isGrid ? "grid" : "list");
     applyViewMode();
    });
-// 🧠 تحديد عنوان الـ API حسب البيئة (محلي / أونلاين)
-const API_BASE =
-  location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    ? "http://localhost:3000" // عنوان السيرفر المحلي
-    : "https://gsmarena-project.vercel.app";  // <-- غيّره إلى عنوان سيرفرك الفعلي أو API المستضيف
-// 🧠 حفظ سجل عمليات البحث وعرضه كمقترحات
-const searchHistoryEl = document.getElementById("searchHistory");
-const queryEl = document.getElementById("query");
-const clearHistoryBtn = document.getElementById("clearHistoryBtn");
-const clearHistoryContainer = document.getElementById("clearHistoryContainer");
+   // 🧠 تحديد عنوان الـ API حسب البيئة (محلي / أونلاين)
+   const API_BASE =
+    location.hostname === "localhost" || location.hostname === "127.0.0.1"
+     ? "http://localhost:3000" // عنوان السيرفر المحلي
+     : "https://gsmarena-project.vercel.app"; // <-- غيّره إلى عنوان سيرفرك الفعلي أو API المستضيف
+   // 🧠 حفظ سجل عمليات البحث وعرضه كمقترحات
+   const searchHistoryEl = document.getElementById("searchHistory");
+   const queryEl = document.getElementById("query");
+   const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+   const clearHistoryContainer = document.getElementById("clearHistoryContainer");
 
-// تحميل السجل عند فتح الصفحة
-let searchHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+   // تحميل السجل عند فتح الصفحة
+   let searchHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
 
-// تحديث واجهة المستخدم بالكامل: datalist + زر المسح
-function refreshSearchUI() {
-  searchHistoryEl.innerHTML = searchHistory
-    .map(item => `<option value="${item}">`)
-    .join("");
-  clearHistoryContainer.hidden = searchHistory.length === 0;
+   // تحديث واجهة المستخدم بالكامل: datalist + زر المسح
+   function refreshSearchUI() {
+    searchHistoryEl.innerHTML = searchHistory.map((item) => `<option value="${item}">`).join("");
+    clearHistoryContainer.hidden = searchHistory.length === 0;
 
-  if (searchHistory.length > 0) {
-    clearHistoryContainer.style.display = "block";
-  } else {
-    clearHistoryContainer.style.display = "none";
-  }
-}
-// حفظ كلمة بحث جديدة
-function saveToHistory(term) {
-  if (!term || searchHistory.includes(term)) return;
-  searchHistory.unshift(term);
-  if (searchHistory.length > 10) searchHistory.pop(); // نحتفظ بآخر 10 فقط
-  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-  refreshSearchUI();
-}
+    if (searchHistory.length > 0) {
+     clearHistoryContainer.style.display = "block";
+    } else {
+     clearHistoryContainer.style.display = "none";
+    }
+   }
+   // حفظ كلمة بحث جديدة
+   function saveToHistory(term) {
+    if (!term || searchHistory.includes(term)) return;
+    searchHistory.unshift(term);
+    if (searchHistory.length > 10) searchHistory.pop(); // نحتفظ بآخر 10 فقط
+    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    refreshSearchUI();
+   }
 
-// التعامل مع البحث عبر زر أو Enter
-document.getElementById("searchBtn").addEventListener("click", doSearch);
-queryEl.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") doSearch();
-});
-// إخفاء المقترحات عند الضغط خارج مربع البحث
-document.addEventListener("click", (e) => {
-  if (e.target !== queryEl) {
-    queryEl.blur();
-  }
-});
+   // التعامل مع البحث عبر زر أو Enter
+   document.getElementById("searchBtn").addEventListener("click", doSearch);
+   queryEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doSearch();
+   });
+   // إخفاء المقترحات عند الضغط خارج مربع البحث
+   document.addEventListener("click", (e) => {
+    if (e.target !== queryEl) {
+     queryEl.blur();
+    }
+   });
 
-// زر مسح السجل
-clearHistoryBtn.addEventListener("click", () => {
-  Swal.fire({
-    title: "تأكيد",
-    text: "هل تريد مسح سجل البحث بالكامل؟",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "نعم، احذف",
-    cancelButtonText: "إلغاء",
-  }).then((result) => {
-    if (result.isConfirmed) {
+   // زر مسح السجل
+   clearHistoryBtn.addEventListener("click", () => {
+    Swal.fire({
+     title: "تأكيد",
+     text: "هل تريد مسح سجل البحث بالكامل؟",
+     icon: "warning",
+     showCancelButton: true,
+     confirmButtonText: "نعم، احذف",
+     cancelButtonText: "إلغاء",
+    }).then((result) => {
+     if (result.isConfirmed) {
       localStorage.removeItem("searchHistory");
       searchHistory = [];
       refreshSearchUI();
       Swal.fire({
-        icon: "success",
-        title: "تم الحذف بنجاح ✅",
-        text: "تم مسح جميع عمليات البحث السابقة.",
-        timer: 2000,
-        showConfirmButton: false
+       icon: "success",
+       title: "تم الحذف بنجاح ✅",
+       text: "تم مسح جميع عمليات البحث السابقة.",
+       timer: 2000,
+       showConfirmButton: false,
       });
-    }
-  });
-});
+     }
+    });
+   });
 
-// تهيئة الواجهة عند تحميل الصفحة
-refreshSearchUI();
-    
-
-
+   // تهيئة الواجهة عند تحميل الصفحة
+   refreshSearchUI();
 
    async function doSearch() {
     const q = queryEl.value.trim();
     if (!q) {
-     await Swal.fire("ملاحظة", "الرجاء إدخال نص للبحث.", "info");
+     await Swal.fire({
+      title: "ملاحظة",
+      text: "الرجاء إدخال نص للبحث.",
+      icon: "info",
+      confirmButtonText: "حسنًا",
+      allowOutsideClick: false, // 🚫 لا تُغلق عند النقر بالخارج
+      allowEscapeKey: false, // 🚫 لا تُغلق بزر Esc
+      backdrop: `rgba(0,0,0,0.6)`,
+      customClass: { popup: "swal2-rounded swal2-bordered" },
+     });
      return;
     }
-    
-  // 🧠 حفظ الكلمة في سجل البحث (حتى تظهر لاحقًا كمقترح)
-  saveToHistory(q);
-  
-// عرض اللودر عند بدء البحث
-  showLoader("جارٍ البحث عن الهاتف...");
-      try {
+
+    // 🧠 حفظ الكلمة في سجل البحث (حتى تظهر لاحقًا كمقترح)
+    saveToHistory(q);
+
+    // عرض اللودر عند بدء البحث
+    showLoader("جارٍ البحث عن الهاتف...");
+    try {
      // <-- هنا طلبك الحقيقي: استبدل المسار التالي بAPI حقيقي لديك
-    // const resp = await fetch("https://example.com/api/search?name=" + encodeURIComponent(q));
-     const resp = await fetch(`${API_BASE}/api/search?name=${encodeURIComponent(q)}`)
+     // const resp = await fetch("https://example.com/api/search?name=" + encodeURIComponent(q));
+     const resp = await fetch(`${API_BASE}/api/search?name=${encodeURIComponent(q)}`);
      if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
 
      const data = await resp.json();
@@ -850,35 +891,31 @@ refreshSearchUI();
      // 🔄 نعرض النتائج ثم ننتظر انتهاء تحميل المعالجات كلها
      await renderResults(data);
      playSound(soundSuccess); // ← صوت النجاح
-
     } catch (err) {
-      playSound(soundError); // ← صوت الخطأ
-      resultsEl.innerHTML = '<div class="text-danger text-center py-3">فشل البحث: ' + (err.message || err) + "</div>";
+     playSound(soundError); // ← صوت الخطأ
+     resultsEl.innerHTML = '<div class="text-danger text-center py-3">فشل البحث: ' + (err.message || err) + "</div>";
     } finally {
-      // ✅ لا نخفي اللودر إلا بعد انتهاء كل شيء
-      hideLoader();
-          queryEl.blur(); // ← إخفاء قائمة المقترحات
-
+     // ✅ لا نخفي اللودر إلا بعد انتهاء كل شيء
+     hideLoader();
+     queryEl.blur(); // ← إخفاء قائمة المقترحات
     }
-
    }
-
 
    // Render results
    async function renderResults(items) {
     window.currentResults = items;
-    
-if (!items || items.length === 0) {
-  Swal.fire({
-    icon: 'info',
-    title: 'لا توجد نتائج',
-    text: 'عذرًا، لم يتم العثور على أي هاتف مطابق للبحث.',
-    confirmButtonText: 'حسنًا',
-    backdrop: `rgba(0,0,0,0.6)`
-  });
-  resultsEl.innerHTML = ''; // مسح أي نتائج سابقة
-  return;
-}
+
+    if (!items || items.length === 0) {
+     Swal.fire({
+      icon: "info",
+      title: "لا توجد نتائج",
+      text: "عذرًا، لم يتم العثور على أي هاتف مطابق للبحث.",
+      confirmButtonText: "حسنًا",
+      backdrop: `rgba(0,0,0,0.6)`,
+     });
+     resultsEl.innerHTML = ""; // مسح أي نتائج سابقة
+     return;
+    }
     resultsEl.innerHTML = "";
 
     for (const it of items) {
@@ -904,10 +941,10 @@ if (!items || items.length === 0) {
 
      // الآن fetch صغير لجلب صفحة الهاتف للحصول على Chipset
      try {
-     await new Promise(r => setTimeout(r, 3000)); // ⏳ انتظر 3 ثوانٍ قبل كل طلب
+      await new Promise((r) => setTimeout(r, 3000)); // ⏳ انتظر 3 ثوانٍ قبل كل طلب
 
       //const resp = await fetch("https://example.com/api/phone?path=" + encodeURIComponent(it.path));
-const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.path)}`)
+      const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.path)}`);
 
       if (!resp.ok) throw new Error("فشل الاتصال");
       const html = await resp.text();
@@ -930,32 +967,31 @@ const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(it.pat
      // عند الضغط على النتيجة
      div.addEventListener("click", () => openPhone(it.path, it.title));
      //  return true;
-
     }
    }
 
    // Open phone - fetch details and parse
-async function openPhone(path, title) {
-  showLoader("جاري جلب مواصفات الهاتف...");
-  playSound(soundSuccess); // 🎵 صوت عند بدء الجلب
+   async function openPhone(path, title) {
+    showLoader("جاري جلب مواصفات الهاتف...");
+    playSound(soundSuccess); // 🎵 صوت عند بدء الجلب
 
-  try {
-    // ⏳ تأخير بسيط اختياري لمحاكاة التحميل
-    await new Promise(r => setTimeout(r, 4000));
+    try {
+     // ⏳ تأخير بسيط اختياري لمحاكاة التحميل
+     await new Promise((r) => setTimeout(r, 4000));
 
-    const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(path)}`);
-    if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
-    const html = await resp.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, "text/html");
+     const resp = await fetch(`${API_BASE}/api/phone?path=${encodeURIComponent(path)}`);
+     if (!resp.ok) throw new Error("خطأ في الاتصال: " + resp.status);
+     const html = await resp.text();
+     const parser = new DOMParser();
+     const doc = parser.parseFromString(html, "text/html");
 
-    // 🔄 تنظيف التبويبات
-    document.querySelectorAll("#modalTabsContent .tab-pane").forEach((tab) => (tab.innerHTML = ""));
+     // 🔄 تنظيف التبويبات
+     document.querySelectorAll("#modalTabsContent .tab-pane").forEach((tab) => (tab.innerHTML = ""));
 
-    // 🖼️ الصورة والعنوان
-    const imgSrc = doc.querySelector("img")?.src || "";
-    const overviewEl = document.getElementById("tab-overview");
-    overviewEl.innerHTML = `
+     // 🖼️ الصورة والعنوان
+     const imgSrc = doc.querySelector("img")?.src || "";
+     const overviewEl = document.getElementById("tab-overview");
+     overviewEl.innerHTML = `
       <div class="card mb-3 shadow-sm border-0 rounded-4">
         <div class="row g-0 align-items-center">
           <div class="col-md-4 text-center p-3">
@@ -1013,29 +1049,28 @@ async function openPhone(path, title) {
      const dsMem = doc.querySelector('[data-spec="internalmemory"], [data-spec="memory"], [data-spec="storage"]');
      if (dsMem) memText = dsMem.innerText.trim();
 
-    // const colors = ["#e0f7fa", "#ffe0b2", "#f3e5f5", "#c8e6c9", "#fff9c4", "#ffccbc"];
-    const specs = [
-  { icon: "📅", name: "سنة الإصدار", value: yearText },
-  { icon: "⚙️", name: "نظام التشغيل", value: osText },
-  { icon: "🧠", name: "المعالج / الشريحة", value: chipText },
-  { icon: "⚡", name: "وحدة المعالجة المركزية", value: cpuText },
-  { icon: "🎮", name: "وحدة الرسوميات", value: gpuText },
-  { icon: "💾", name: "الذاكرة", value: memText },
-];
+     // const colors = ["#e0f7fa", "#ffe0b2", "#f3e5f5", "#c8e6c9", "#fff9c4", "#ffccbc"];
+     const specs = [
+      { icon: "📅", name: "سنة الإصدار", value: yearText },
+      { icon: "⚙️", name: "نظام التشغيل", value: osText },
+      { icon: "🧠", name: "المعالج / الشريحة", value: chipText },
+      { icon: "⚡", name: "وحدة المعالجة المركزية", value: cpuText },
+      { icon: "🎮", name: "وحدة الرسوميات", value: gpuText },
+      { icon: "💾", name: "الذاكرة", value: memText },
+     ];
 
-const specContainer = document.getElementById("spec-cards");
-specs.forEach((s) => {
-  const card = document.createElement("div");
-  card.className = "col-6 col-md-4";
-  card.innerHTML = `
+     const specContainer = document.getElementById("spec-cards");
+     specs.forEach((s) => {
+      const card = document.createElement("div");
+      card.className = "col-6 col-md-4";
+      card.innerHTML = `
     <div class="specs-card card text-center p-3 shadow-sm h-100">
       <div class="fw-bold mb-1">${s.icon} ${s.name}</div>
       <div class="text-muted small">${s.value}</div>
     </div>
   `;
-  specContainer.appendChild(card);
-});
-
+      specContainer.appendChild(card);
+     });
 
      // توزيع الجداول على التبويبات المناسبة
      tables.forEach((tbl) => {
@@ -1060,14 +1095,13 @@ specs.forEach((s) => {
       }
      });
 
+     document.getElementById("modalTitle").textContent = title;
 
-    document.getElementById("modalTitle").textContent = title;
+     // ✅ إخفاء شاشة التحميل
+     hideLoader();
 
-    // ✅ إخفاء شاشة التحميل
-    hideLoader();
-
-    // ✅ تنبيه نجاح قبل إظهار المودال
-    await Swal.fire({
+     // ✅ تنبيه نجاح قبل إظهار المودال
+     await Swal.fire({
       icon: "success",
       title: "تم تحميل المواصفات بنجاح ✅",
       text: "سيتم عرض التفاصيل الآن...",
@@ -1078,31 +1112,37 @@ specs.forEach((s) => {
       color: "#333",
       backdrop: "rgba(0,0,0,0.4)",
       didOpen: () => {
-        Swal.getPopup().style.borderRadius = "1rem";
-        Swal.getPopup().style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
-      }
-    });
+       Swal.getPopup().style.borderRadius = "1rem";
+       Swal.getPopup().style.boxShadow = "0 0 15px rgba(0,0,0,0.2)";
+      },
+     });
 
-    // ✅ عرض المودال بعد التنبيه
-    modalEl.show();
-
-  } catch (err) {
-    hideLoader();
-    await Swal.fire({
+     // ✅ عرض المودال بعد التنبيه
+     modalEl.show();
+    } catch (err) {
+     hideLoader();
+     await Swal.fire({
       icon: "error",
       title: "خطأ",
       text: "فشل جلب بيانات الهاتف: " + (err.message || err),
       confirmButtonText: "إغلاق",
-      backdrop: `rgba(0,0,0,0.6)`
-    });
-    return;
-  }
-}
-   // منع أي كود يَمنع إدخال العربية — لا نفعل أي قيود هنا.
+      backdrop: `rgba(0,0,0,0.6)`,
+     });
+     return;
+    }
+   }
+   // 🔹 منع إدخال العربية + تشغيل صوت عند التحذير
    queryEl.addEventListener("input", async (e) => {
     const arabicPattern = /[\u0600-\u06FF]/g;
     if (arabicPattern.test(queryEl.value)) {
      queryEl.value = queryEl.value.replace(arabicPattern, ""); // إزالة الأحرف العربية
+
+     // 🟡 تشغيل صوت التحذير قبل ظهور الرسالة
+     const soundError = document.getElementById("soundError");
+     if (soundError) {
+      soundError.currentTime = 0;
+      soundError.play().catch(() => {});
+     }
 
      await Swal.fire({
       title: "عفوا",
@@ -1126,55 +1166,45 @@ specs.forEach((s) => {
     }
    });
 
-
    // 🔋 عرض اللودر
-function showLoader(text = "جارٍ التحميل...") {
-  const loader = document.getElementById("loader");
-  const chargeSound = document.getElementById("chargeSound");
+   function showLoader(text = "جارٍ التحميل...") {
+    const loader = document.getElementById("loader");
+    const chargeSound = document.getElementById("chargeSound");
 
-  document.body.classList.add("loading");
-  loader.querySelector(".loading-text").textContent = text;
+    document.body.classList.add("loading");
+    loader.querySelector(".loading-text").textContent = text;
 
-  // تشغيل الصوت
-  if (chargeSound) {
-    chargeSound.currentTime = 0;
-    chargeSound.play().catch(() => {});
-  }
-  loader.classList.remove("hidden");
-}
-// ❌ إخفاء اللودر
-function hideLoader() {
-  const loader = document.getElementById("loader");
-  loader.classList.add("hidden");
-  document.body.classList.remove("loading");
-}
+    // تشغيل الصوت
+    if (chargeSound) {
+     chargeSound.currentTime = 0;
+     chargeSound.play().catch(() => {});
+    }
+    loader.classList.remove("hidden");
+   }
+   // ❌ إخفاء اللودر
+   function hideLoader() {
+    const loader = document.getElementById("loader");
+    loader.classList.add("hidden");
+    document.body.classList.remove("loading");
+   }
 
-// ✅ عند تحميل الصفحة لأول مرة
-window.addEventListener("load", async () => {
-  showLoader("جارٍ التحميل...");
-  setTimeout(() => hideLoader(), 2000); // يخفيه بعد ثانيتين
-});
-// Service Worker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js")
-      .then(reg => console.log("✅ تم تسجيل Service Worker:", reg.scope))
-      .catch(err => console.error("❌ فشل التسجيل:", err));
-  });
-}
+   // ✅ عند تحميل الصفحة لأول مرة
+   window.addEventListener("load", async () => {
+    showLoader("جارٍ التحميل...");
+    setTimeout(() => hideLoader(), 2000); // يخفيه بعد ثانيتين
+   });
+
+   // Service Worker
+   if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+     navigator.serviceWorker
+      .register("/service-worker.js")
+      .then((reg) => console.log("✅ تم تسجيل Service Worker:", reg.scope))
+      .catch((err) => console.error("❌ فشل التسجيل:", err));
+    });
+   }
 
    // --- نهاية السكريبتات ---
   </script>
-  <!-- أصوات متعددة -->
-<audio id="soundLoad" preload="auto">
-  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
-</audio>
-<audio id="soundSuccess" preload="auto">
-  <source src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" type="audio/ogg">
-</audio>
-<audio id="soundError" preload="auto">
-  <source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg">
-</audio>
-
  </body>
 </html>
