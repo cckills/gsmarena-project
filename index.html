@@ -11,27 +11,97 @@
 <meta name="theme-color" content="#0d6efd">
 
   <style>
+    /* 🌞 الوضع الفاتح */
+div.fw-bold {
+  color: #222 !important;
+  transition: color 0.3s ease;
+}
+div.text-muted {
+  color: #6c757d !important; /* الرمادي الافتراضي في Bootstrap */
+  transition: color 0.3s ease;
+}
+footer.text-muted {
+  color: #6c757d !important;
+  transition: color 0.3s ease;
+}
+/* 🌙 الوضع الداكن */
+body.dark-mode div.fw-bold {
+  color: #f8f9fa !important;
+}
 
-    .specs-card {
-  background: rgba(var(--bs-primary-rgb), 0.1) !important;
-  border-radius: 12px;
-  transition: background 0.3s ease;
+body.dark-mode div.text-muted {
+  color: #b0b0b0 !important;
 }
-body.dark-mode .specs-card {
-  background: rgba(var(--bs-primary-rgb), 0.25) !important;
+
+body.dark-mode footer.text-muted {
+  color: #b0b0b0 !important;
 }
-/* 📱 تصغير شبكة النتائج على الهاتف فقط */
+
+/* 📱 جميع تعديلات الهاتف مجمعة في كتلة واحدة */
 @media (max-width: 576px) {
+
+  /* شبكة النتائج */
   .results-grid {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)) !important;
     gap: 0.4rem !important;
   }
 
+  /* شكل عناصر النتائج */
   .result-item {
     padding: 0.5rem !important;
     border-radius: 10px !important;
   }
 
+  /* الصور داخل النتائج */
+  .result-thumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .phone-thumb {
+    height: 120px;
+  }
+
+  /* اللودر */
+  .phone {
+    width: 140px;
+    height: 260px;
+    border-radius: 20px;
+  }
+
+  .loading-text {
+    font-size: 1rem;
+    margin-top: 12px;
+  }
+
+  /* زر البحث */
+  #searchBtn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  #query {
+    font-size: 0.95rem;
+  }
+
+  /* زر تبديل الثيم */
+  #themeToggle {
+    width: 44px;
+    height: 44px;
+    bottom: 14px;
+    right: 14px;
+  }
+}
+/* 📱 تحسين عرض بطاقات المواصفات داخل المودال على الشاشات الصغيرة */
+.specs-card {
+  background: rgba(var(--bs-primary-rgb), 0.1) !important;
+}
+body.dark-mode .specs-card .text-muted {
+  color: #ccc !important;
+}
+
+@media (max-width: 576px) {
   .result-thumb {
     width: 55px !important;
     height: 55px !important;
@@ -54,21 +124,6 @@ body.dark-mode .specs-card {
     gap: 1rem;
   }
 }
-
-
-/* لجعل اللودر أصغر على الجوال */
-@media (max-width: 576px) {
-  .phone {
-    width: 140px;
-    height: 260px;
-    border-radius: 20px;
-  }
-  .loading-text {
-    font-size: 1rem;
-    margin-top: 12px;
-  }
-}
-
 /* إدخال تجاوب لواجهة النتائج */
 @media (max-width: 768px) {
   .result-item {
@@ -83,7 +138,6 @@ body.dark-mode .specs-card {
     gap: 0.75rem;
   }
 }
-
 /* تحسين عرض المودال على الشاشات الصغيرة */
 @media (max-width: 768px) {
   .modal-dialog {
@@ -113,19 +167,6 @@ body.dark-mode .specs-card {
     margin-bottom: 6px;
   }
 }
-
-/* تحسين مظهر أزرار البحث لتملأ العرض بالكامل على الجوال */
-@media (max-width: 576px) {
-  #searchBtn {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-  #query {
-    font-size: 0.95rem;
-  }
-}
-
 /* جعل الجداول داخل المودال قابلة للتمرير */
 #specModal table {
   display: block;
@@ -133,7 +174,6 @@ body.dark-mode .specs-card {
   overflow-x: auto;
   white-space: nowrap;
 }
-
 /* تحسين SweetAlert2 ليكون متجاوبًا */
 .swal2-popup {
   font-size: 0.95rem !important;
@@ -146,8 +186,6 @@ body.dark-mode .specs-card {
 .swal2-html-container {
   font-size: 0.95rem !important;
 }
-
-
  body.loading {
     overflow: hidden;
   }
@@ -155,7 +193,6 @@ body.dark-mode .specs-card {
     opacity: 1 !important;
     visibility: visible !important;
   }
-
   .loader-overlay {
     position: fixed;
     inset: 0;
@@ -502,21 +539,6 @@ body.dark-mode .specs-card {
     opacity: 0.35;
    }
 
-   @media (max-width: 576px) {
-    .result-thumb {
-     width: 64px;
-     height: 64px;
-    }
-    .phone-thumb {
-     height: 120px;
-    }
-    #themeToggle {
-     width: 44px;
-     height: 44px;
-     bottom: 14px;
-     right: 14px;
-    }
-   }
   </style>
  </head>
  
@@ -553,19 +575,27 @@ body.dark-mode .specs-card {
     </div>
    </header>
 
-   <div class="card mb-3">
-    <div class="card-body">
-     <div class="row g-2">
-      <div class="col-12 col-md-9">
-  <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
-       <input id="query" class="form-control" placeholder="ابحث عن هاتف (مثال: Y9 او STK-L21 )" />
+  <div class="card mb-3">
+  <div class="card-body">
+    <div class="mb-2">
+      <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
+      <input list="searchHistory" id="query" class="form-control mb-2" placeholder="ابحث عن هاتف..." autocomplete="off">
+      <datalist id="searchHistory"></datalist>
+      <!-- الأزرار على نفس الخط -->
+      <div class="d-flex gap-2">
+        <button id="searchBtn" class="btn btn-primary" style="flex: 3;">
+          بحث
+        </button>
+        <div id="clearHistoryContainer" class="text-end mt-2" style="display: none;">
+        <button id="clearHistoryBtn" class="btn btn-outline-danger" style="flex: 1;">
+          🗑️ مسح سجل البحث
+        </button>
       </div>
-      <div class="col-12 col-md-3 d-grid">
-       <button id="searchBtn" class="btn btn-primary">بحث</button>
-      </div>
-     </div>
     </div>
-   </div>
+    </div>
+    </div>
+    </div>
+
 
    <div class="card p-3 mb-3">
     <div class="d-flex justify-content-between align-items-center mb-2">
@@ -656,11 +686,19 @@ body.dark-mode .specs-card {
   <script>
     const loader = document.getElementById("loader");
   const chargeSound = document.getElementById("chargeSound");
+// أصوات متعددة
+const soundLoad = document.getElementById("soundLoad");
+const soundSuccess = document.getElementById("soundSuccess");
+const soundError = document.getElementById("soundError");
 
-  
+function playSound(audio) {
+  if (!audio) return;
+  audio.currentTime = 0;
+  audio.play().catch(() => {});
+}
+ 
    // Fade wrapper (لانتقال ناعم عند تبديل الثيم)
    const pageWrapper = document.getElementById("pageWrapper");
-
    // Theme toggle (يدوي فقط) + حفظ في localStorage
    const themeToggle = document.getElementById("themeToggle");
    const savedTheme = localStorage.getItem("theme") || "light";
@@ -707,13 +745,79 @@ const API_BASE =
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
     ? "http://localhost:3000" // عنوان السيرفر المحلي
     : "https://gsmarena-project.vercel.app";  // <-- غيّره إلى عنوان سيرفرك الفعلي أو API المستضيف
+// 🧠 حفظ سجل عمليات البحث وعرضه كمقترحات
+const searchHistoryEl = document.getElementById("searchHistory");
+const queryEl = document.getElementById("query");
+const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+const clearHistoryContainer = document.getElementById("clearHistoryContainer");
 
-   // Search handlers
-   const queryEl = document.getElementById("query");
-   document.getElementById("searchBtn").addEventListener("click", doSearch);
-   queryEl.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") doSearch();
-   });
+// تحميل السجل عند فتح الصفحة
+let searchHistory = JSON.parse(localStorage.getItem("searchHistory") || "[]");
+
+// تحديث واجهة المستخدم بالكامل: datalist + زر المسح
+function refreshSearchUI() {
+  searchHistoryEl.innerHTML = searchHistory
+    .map(item => `<option value="${item}">`)
+    .join("");
+  clearHistoryContainer.hidden = searchHistory.length === 0;
+
+  if (searchHistory.length > 0) {
+    clearHistoryContainer.style.display = "block";
+  } else {
+    clearHistoryContainer.style.display = "none";
+  }
+}
+// حفظ كلمة بحث جديدة
+function saveToHistory(term) {
+  if (!term || searchHistory.includes(term)) return;
+  searchHistory.unshift(term);
+  if (searchHistory.length > 10) searchHistory.pop(); // نحتفظ بآخر 10 فقط
+  localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+  refreshSearchUI();
+}
+
+// التعامل مع البحث عبر زر أو Enter
+document.getElementById("searchBtn").addEventListener("click", doSearch);
+queryEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") doSearch();
+});
+// إخفاء المقترحات عند الضغط خارج مربع البحث
+document.addEventListener("click", (e) => {
+  if (e.target !== queryEl) {
+    queryEl.blur();
+  }
+});
+
+// زر مسح السجل
+clearHistoryBtn.addEventListener("click", () => {
+  Swal.fire({
+    title: "تأكيد",
+    text: "هل تريد مسح سجل البحث بالكامل؟",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "نعم، احذف",
+    cancelButtonText: "إلغاء",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem("searchHistory");
+      searchHistory = [];
+      refreshSearchUI();
+      Swal.fire({
+        icon: "success",
+        title: "تم الحذف بنجاح ✅",
+        text: "تم مسح جميع عمليات البحث السابقة.",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    }
+  });
+});
+
+// تهيئة الواجهة عند تحميل الصفحة
+refreshSearchUI();
+    
+
+
 
    async function doSearch() {
     const q = queryEl.value.trim();
@@ -721,6 +825,10 @@ const API_BASE =
      await Swal.fire("ملاحظة", "الرجاء إدخال نص للبحث.", "info");
      return;
     }
+    
+  // 🧠 حفظ الكلمة في سجل البحث (حتى تظهر لاحقًا كمقترح)
+  saveToHistory(q);
+  
 // عرض اللودر عند بدء البحث
   showLoader("جارٍ البحث عن الهاتف...");
       try {
@@ -741,6 +849,8 @@ const API_BASE =
     } finally {
       // ✅ لا نخفي اللودر إلا بعد انتهاء كل شيء
       hideLoader();
+          queryEl.blur(); // ← إخفاء قائمة المقترحات
+
     }
 
    }
@@ -766,9 +876,7 @@ if (!items || items.length === 0) {
     for (const it of items) {
      const div = document.createElement("div");
      div.className = isGrid ? "result-item" : "result-item d-flex";
-
      const thumb = `<img src="${it.thumb || ""}" class="${isGrid ? "result-thumb" : "result-thumb me-3"}" alt="صورة">`;
-
      // عنصر لعرض اسم الهاتف والمعالج
      const nameChipHTML = document.createElement("div");
      nameChipHTML.className = isGrid ? "" : "flex-grow-1 ms-3";
@@ -1037,18 +1145,8 @@ function hideLoader() {
 // ✅ عند تحميل الصفحة لأول مرة
 window.addEventListener("load", async () => {
   showLoader("جارٍ التحميل...");
+  setTimeout(() => hideLoader(), 2000); // يخفيه بعد ثانيتين
 });
-
-const soundLoad = document.getElementById("soundLoad");
-const soundSuccess = document.getElementById("soundSuccess");
-const soundError = document.getElementById("soundError");
-
-function playSound(audio) {
-  if (!audio) return;
-  audio.currentTime = 0;
-  audio.play().catch(() => {});
-}
- 
 // Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
