@@ -11,6 +11,7 @@
 <meta name="theme-color" content="#0d6efd">
 
   <style>
+    
     /* 🌞 الوضع الفاتح */
 div.fw-bold {
   color: #222 !important;
@@ -538,6 +539,12 @@ body.dark-mode .specs-card .text-muted {
    .page-fade.fade-out {
     opacity: 0.35;
    }
+   .d-flex {
+    display: flex !important
+;
+    flex-direction: row;
+    align-items: flex-end;
+ }
 
   </style>
  </head>
@@ -581,20 +588,21 @@ body.dark-mode .specs-card .text-muted {
       <div class="form-text mt-2">يمكنك البحث عن اسم الهاتف بالكامل أو جزء منه.</div>
       <input list="searchHistory" id="query" class="form-control mb-2" placeholder="ابحث عن هاتف..." autocomplete="off">
       <datalist id="searchHistory"></datalist>
-      <!-- الأزرار على نفس الخط -->
+          <!-- 🔹 الأزرار بنفس العرض والطول -->
       <div class="d-flex gap-2">
-        <button id="searchBtn" class="btn btn-primary" style="flex: 3;">
-          بحث
+        <button id="searchBtn" class="btn btn-primary"style="flex: 3;">
+          🔍 بحث
         </button>
-        <div id="clearHistoryContainer" class="text-end mt-2" style="display: none;">
+      <div id="clearHistoryContainer" class="text-end mt-2" style="display: none;">
         <button id="clearHistoryBtn" class="btn btn-outline-danger" style="flex: 1;">
           🗑️ مسح سجل البحث
         </button>
       </div>
     </div>
-    </div>
-    </div>
-    </div>
+  </div>
+</div>
+</div>
+
 
 
    <div class="card p-3 mb-3">
@@ -685,8 +693,8 @@ body.dark-mode .specs-card .text-muted {
 
   <script>
     const loader = document.getElementById("loader");
-  const chargeSound = document.getElementById("chargeSound");
-// أصوات متعددة
+    // أصوات متعددة
+const chargeSound = document.getElementById("chargeSound");
 const soundLoad = document.getElementById("soundLoad");
 const soundSuccess = document.getElementById("soundSuccess");
 const soundError = document.getElementById("soundError");
@@ -1132,7 +1140,6 @@ function showLoader(text = "جارٍ التحميل...") {
     chargeSound.currentTime = 0;
     chargeSound.play().catch(() => {});
   }
-
   loader.classList.remove("hidden");
 }
 // ❌ إخفاء اللودر
